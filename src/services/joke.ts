@@ -26,7 +26,6 @@ export class JokesService {
     // inject RCache instance as private property
     constructor(private rCache: RCache) {}
 
-    // Fetch posts with caching
     async get(): JokeResult {
         const cacheKey = "joke";
         // console.log(ms("10s"));
