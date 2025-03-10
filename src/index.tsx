@@ -11,7 +11,7 @@ const app = new Hono();
 
 // Initialize Redis connection
 const redis = new Redis({
-    host: "localhost", // or your Redis container host
+    host: process.env.REDIS_HOST || "localhost", // or your Redis container host
     port: 6379, // default Redis port
 });
 const rCache = new RCache(redis);

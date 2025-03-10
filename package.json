@@ -2,7 +2,7 @@
   "name": "hono-w-redis",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.tsx",
+    "dev": "REDIS_HOST=localhost tsx watch src/index.tsx",
     "build": "tsc",
     "start": "node dist/index.js"
   },
