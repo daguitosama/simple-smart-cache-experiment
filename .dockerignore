@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+
+.cache/
+build
+dist
+
+.env
+.docker
+.git
+.github
+.vscode
+
+stack.env
+README.md
