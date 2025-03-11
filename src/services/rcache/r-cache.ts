@@ -11,9 +11,9 @@ export class RCache {
     async get<T>(key: string, fetcher: () => Promise<T>, ttl: number): Promise<Result<T, string>> {
         try {
             const rawEntry = await this.redis.get(key);
-            console.log("rawEntry received");
+
             if (!rawEntry) {
-                console.log("rawEntry missing");
+                console.log("entry missing");
                 const result = await fetcher();
                 console.log("fetcher executed ok");
                 const entry: Entry<T> = { type: "ok", value: result, ttl, revalidatedAt: Date.now(), revalidationScheduled: false };
@@ -24,13 +24,22 @@ export class RCache {
             }
             const entry = JSON.parse(rawEntry) as Entry<T>;
 
+            console.log("entry present");
+
             if (entry.type == "error") {
                 console.log("entry had an error");
+                if (!entry.revalidationScheduled) {
+                    entry.revalidationScheduled = true;
+                    await this.redis.set(key, JSON.stringify(entry));
+                    console.log("entry with revalidation mark saved");
+                    this.scheduleRevalidation<T>(key, fetcher, ttl);
+                    console.log("revalidation scheduled");
+                }
                 return Result.err(entry.error);
             }
 
             const now = Date.now();
-            const entryExpiration = new Date(entry.revalidatedAt + entry.ttl).getTime();
+            const entryExpiration = new Date(entry.revalidatedAt + ttl).getTime();
 
             console.log("Calculating expiration", { entryExpiration, now });
 
@@ -75,7 +84,7 @@ export class RCache {
                 }
             },
             // next tick
-            1
+            0
         );
     }
 }
