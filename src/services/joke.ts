@@ -29,9 +29,7 @@ export class JokesService {
 
     async get(): JokeResult {
         const cacheKey = "joke";
-        console.log('ms("10s"): ' + ms("10s"));
-        // return Result.ok([]);
-        const cacheResult = await this.rCache.get<Joke>(cacheKey, fetchRandomJoke, 10_000);
+        const cacheResult = await this.rCache.get<Joke>(cacheKey, fetchRandomJoke, ms("5s"));
         return cacheResult;
     }
 }
