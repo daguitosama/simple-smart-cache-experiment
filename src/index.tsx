@@ -3,7 +3,6 @@ import { Hono } from "hono";
 import { jsxRenderer } from "hono/jsx-renderer";
 import { Redis } from "ioredis";
 import { JokesService } from "./services/joke.js";
-import { PostService } from "./services/posts.js";
 import { RCache } from "./services/rcache/r-cache.js";
 
 // Create Hono app
@@ -16,7 +15,6 @@ const redis = new Redis({
 });
 const rCache = new RCache(redis);
 
-const postService = new PostService(rCache);
 const jokeService = new JokesService(rCache);
 // JSX renderer middleware
 app.use(

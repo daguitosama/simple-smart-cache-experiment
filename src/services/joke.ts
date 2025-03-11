@@ -1,3 +1,4 @@
+import ms from "ms";
 import { Result } from "true-myth";
 import { z } from "zod";
 import type { RCache } from "./rcache/r-cache.js";
@@ -28,9 +29,9 @@ export class JokesService {
 
     async get(): JokeResult {
         const cacheKey = "joke";
-        // console.log(ms("10s"));
+        console.log('ms("10s"): ' + ms("10s"));
         // return Result.ok([]);
-        const cacheResult = await this.rCache.get<Joke>(cacheKey, fetchRandomJoke, 1000);
+        const cacheResult = await this.rCache.get<Joke>(cacheKey, fetchRandomJoke, 10_000);
         return cacheResult;
     }
 }

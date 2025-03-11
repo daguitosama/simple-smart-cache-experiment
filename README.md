@@ -1,5 +1,7 @@
 # Simple Smart Cache Experiment
 
+https://chucknorris.undago.cloud/
+
 A project to experiment how to build a smart cache layer for servers depending on external and slow servers, like a Wordpress REST API slow and far
 far away from your Headless Remix app. Why `smart` because the cache system abstract the data querying and revalidation, in a way your server response
 never get's delay with that slow outside server, (if is ok to you serve a little bit of stale data). In the background, based on a custom `ttl` policy
